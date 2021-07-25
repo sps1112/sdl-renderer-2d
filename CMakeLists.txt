@@ -7,4 +7,28 @@ if(!MSVC)
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /std:c++11")
 endif(!MSVC)
 
-add_executable(sdl-renderer-2d src/application.cpp)
+set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/cmake/modules")
+set(SDL2_PATH "${CMAKE_SOURCE_DIR}")
+set(SDL2_SEARCH_PATHS ${SDL2_PATH})
+find_package(SDL2 REQUIRED)
+if(SDL2_FOUND)
+    include_directories(${SDL2_INCLUDE_DIR})
+endif() 
+
+include_directories(includes)
+link_directories(includes/SDL)
+
+if(WIN32)
+link_directories(lib)
+endif()
+
+add_executable(sdl-renderer-2d WIN32 src/application.cpp)
+               
+target_link_libraries(sdl-renderer-2d SDL2)
+
+if(WIN32)
+add_custom_command(TARGET sdl-renderer-2d POST_BUILD   
+    COMMAND ${CMAKE_COMMAND} -E copy_if_different
+        "${CMAKE_SOURCE_DIR}/lib/SDL2.dll"
+        $<TARGET_FILE_DIR:sdl-renderer-2d>)    
+endif()
