@@ -1,4 +1,5 @@
 // Custom Headers
+#include <Utils.h>
 #include <config.h>
 #include <SDL2/SDL.h>
 
@@ -10,24 +11,26 @@ int WinMain(int argc, char *argv[])
     // Initialize SDL
     if (SDL_Init(SDL_INIT_VIDEO) < 0)
     {
-        std::cout << "COULD NOT INITIALIZE SDL!!!" << std::endl;
-        std::cout << "ERROR: " << SDL_GetError() << std::endl;
+        Log("COULD NOT INITIALIZE SDL!!!");
+        Print("ERROR: ");
+        Print(SDL_GetError());
         return -1;
     }
 
     // Create Window
-    // Window Declaration
     SDL_Window *window = SDL_CreateWindow(WINDOW_TITLE, SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED,
                                           SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_SHOWN);
     if (window == NULL)
     {
-        std::cout << "COULD NOT CREATE WINDOW!!!" << std::endl;
-        std::cout << "ERROR: " << SDL_GetError() << std::endl;
+        Log("COULD NOT CREATE WINDOW!!!");
+        Print("ERROR: ");
+        Print(SDL_GetError());
         return -1;
     }
+
     // Create Surface
     SDL_Surface *screenSurface = SDL_GetWindowSurface(window);
-    SDL_FillRect(screenSurface, NULL, SDL_MapRGB(screenSurface->format, 0xFF, 0, 0xFF));
+    SDL_FillRect(screenSurface, NULL, SDL_MapRGB(screenSurface->format, 0xFF, 0xFF, 0));
     SDL_UpdateWindowSurface(window);
     SDL_Delay(3000);
 
