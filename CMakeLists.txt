@@ -22,7 +22,7 @@ if(WIN32)
 link_directories(lib)
 endif()
 
-add_executable(sdl-renderer-2d WIN32 src/application.cpp)
+add_executable(sdl-renderer-2d WIN32 src/Application.cpp)
                
 target_link_libraries(sdl-renderer-2d SDL2)
 
