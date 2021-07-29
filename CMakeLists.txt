@@ -2,9 +2,9 @@ cmake_minimum_required(VERSION 3.16.3)
 
 project(sdl-renderer-2d)
 
-set(CMAKE_CXX_STANDARD 11)
+set(CMAKE_CXX_STANDARD 17)
 if(!MSVC)
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /std:c++11")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /std:c++17")
 endif(!MSVC)
 
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/cmake/modules")
@@ -17,6 +17,10 @@ endif()
 
 include_directories(includes)
 link_directories(includes/SDL)
+
+include_directories(configuration)
+configure_file(configuration/root_directory.h.in configuration/root_directory.h)
+include_directories(${CMAKE_BINARY_DIR}/configuration)
 
 if(WIN32)
 link_directories(lib)
