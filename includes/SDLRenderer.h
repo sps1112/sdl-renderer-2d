@@ -24,15 +24,16 @@ private:
         SDL_Quit();
     }
 
-public:
-    // Default Renderer Constructor
-    SDLRenderer(int width_ = SCREEN_WIDTH, int height_ = SCREEN_HEIGHT)
+    // Destroys the Window
+    void destroy_window()
     {
-        width = width_;
-        height = height_;
-        window = NULL;
-        renderer = NULL;
-        // screenSurface = NULL;
+        SDL_DestroyWindow(window);
+    }
+
+    // Destroys the Renderer
+    void destroy_renderer()
+    {
+        SDL_DestroyRenderer(renderer);
     }
 
     // Sets up SDL for the Renderer and returns completion status
@@ -64,19 +65,6 @@ public:
         return true;
     }
 
-    // Returns the window
-    SDL_Window *get_window()
-    {
-        return window;
-    }
-
-    // Destroys the Window
-    void destroy_window()
-    {
-        SDL_DestroyWindow(window);
-        quit_sdl();
-    }
-
     // Sets up the Renderer and returns the completion status
     bool setup_renderer()
     {
@@ -87,9 +75,48 @@ public:
             print_message("ERROR: ");
             print_message(SDL_GetError());
             destroy_window();
+            quit_sdl();
             return false;
         }
         return true;
+    }
+
+public:
+    // Default Renderer Constructor
+    SDLRenderer(int width_ = SCREEN_WIDTH, int height_ = SCREEN_HEIGHT)
+    {
+        width = width_;
+        height = height_;
+        window = NULL;
+        renderer = NULL;
+        // screenSurface = NULL;
+    }
+
+    // Setups the SDL Context, Window and Renderer and returns the completion status
+    bool setup_sdl_renderer(const char *title)
+    {
+        // Initialize SDL
+        if (!init_sdl())
+        {
+            return false;
+        }
+        // Initialize Window
+        if (!setup_window(title))
+        {
+            return false;
+        }
+        // Initialize Renderer
+        if (!setup_renderer())
+        {
+            return false;
+        }
+        return true;
+    }
+
+    // Returns the window
+    SDL_Window *get_window()
+    {
+        return window;
     }
 
     // Returns the Renderer
@@ -114,6 +141,14 @@ public:
     void wait_milliseconds(unsigned int milliseconds)
     {
         SDL_Delay(milliseconds);
+    }
+
+    // Frees all the Data
+    void free_data()
+    {
+        destroy_renderer();
+        destroy_window();
+        quit_sdl();
     }
 };
 
