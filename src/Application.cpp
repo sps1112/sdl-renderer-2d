@@ -1,36 +1,58 @@
 // Custom Headers
 #include <Utils.h>
-#include <Renderer.h>
+#include <SDLRenderer.h>
 #include <config.h>
 
 // Standard Headers
 #include <iostream>
 
-// Setup Renderer
-Renderer renderer(SCREEN_WIDTH, SCREEN_HEIGHT);
+// Setup SDL Renderer
+SDLRenderer sdlRenderer(SCREEN_WIDTH, SCREEN_HEIGHT);
 
 // Main Function
 int WinMain(int argc, char *argv[])
 {
     // Initialize SDL
-    if (!renderer.init_sdl())
+    if (!sdlRenderer.init_sdl())
     {
         return -1;
     }
 
-    // Setup Window
-    if (!renderer.setup_window(WINDOW_TITLE))
+    // Initialize Window
+    if (!sdlRenderer.setup_window(WINDOW_TITLE))
     {
         return -1;
     }
 
-    // Create Surface
-    renderer.setup_screen();
+    // Initialize Renderer
+    if (!sdlRenderer.setup_renderer())
+    {
+        return -1;
+    }
+    sdlRenderer.set_renderer_color(255, 0, 255);
 
-    // Render Loop
-    renderer.wait_seconds(1);
+    // Load Surfaces to Textures
+    // sdlRenderer.setup_screen();
+
+    // Render Loop Start
+    for (int i = 0; i < 200; i++)
+    {
+        // Check for Events
+        // Check for Input
+        // Setup Data
+        sdlRenderer.set_renderer_color(i, 255 - i, i);
+
+        // Render Objects
+        SDL_RenderClear(sdlRenderer.get_renderer());
+        // Draw Start
+        // Draw End
+        SDL_RenderPresent(sdlRenderer.get_renderer());
+        // Refresh Screen
+        sdlRenderer.wait_milliseconds(10);
+        // Render Loop End
+    }
 
     // Free Data
-    renderer.destroy_window();
+    sdlRenderer.destroy_window();
     return 0;
 }

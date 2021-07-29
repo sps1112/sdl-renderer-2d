@@ -6,27 +6,27 @@
 #include <string>
 
 // Prints Character Array
-void Print(const char *message)
+void print_message(const char *message)
 {
     std::cout << message;
 }
 
 // Prints String
-void Print(std::string message)
+void print_message(std::string message)
 {
-    Print(message.c_str());
+    print_message(message.c_str());
 }
 
 // Logs a Character Array to a Line
-void Log(const char *message)
+void log_message(const char *message)
 {
     std::cout << message << std::endl;
 }
 
 // Logs a String to a Line
-void Log(std::string message)
+void log_message(std::string message)
 {
-    Log(message.c_str());
+    log_message(message.c_str());
 }
 
 #endif // UTILS_H
